@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<header class="header">
+  <h1>Get Your Loan Approved Fast</h1>
+  <p>Quick approval · Competitive rates · Flexible terms</p>
+</header>
+
+<main class="container">
+  <div class="calculator">
+
+    <h2>Loan Calculator</h2>
+
+    <label>Loan Amount</label>
+    <div class="amount">ZMW <span id="amountValue">5000</span></div>
+    <input type="range" id="amount" min="5000" max="100000" value="5000">
+
+    <label>Loan Term</label>
+    <div class="terms">
+      <button class="active" data-term="12">12 months</button>
+      <button data-term="6">6 months</button>
+      <button data-term="24">24 months</button>
+    </div>
+
+    <div class="payment">
+      <p>Monthly Payment</p>
+      <h3>ZMW <span id="payment">426.89</span></h3>
+      <small>Interest rate: 4.5% APR</small>
+    </div>
+
+    <a href="apply.html" class="apply-btn">APPLY NOW</a>
+
+  </div>
+</main>
+
+<script src="assets/js/calculator.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(#ef5350, #e53935);
+  color: #333;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  padding: 30px 15px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.calculator {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.amount {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.terms button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.terms .active {
+  background: #e53935;
+  color: white;
+}
+
+.apply-btn {
+  display: block;
+  text-align: center;
+  background: #e53935;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
