@@ -52,6 +52,25 @@ input, select {
   margin: 15px 0;
 }
 
+.airtel-btn {
+  display: inline-block;
+  background: #e53935;
+  color: white;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 16px;
+  font-weight: 600;
+  transition: background 0.3s;
+  box-sizing: border-box;
+}
+
+.airtel-btn:hover {
+  background: #c62828;
+}
+
 .submit-btn {
   background: #e53935;
   color: white;
