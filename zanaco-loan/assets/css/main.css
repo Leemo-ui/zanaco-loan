@@ -1,55 +1,71 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(#ef5350, #e53935);
-  color: #333;
-}
-
-.header {
-  text-align: center;
-  color: white;
-  padding: 30px 15px;
+    background: linear-gradient(180deg, #f36b6b, #e74c3c);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 40px 0;
 }
 
 .container {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
-.calculator {
-  background: white;
-  padding: 25px;
-  border-radius: 14px;
-  width: 100%;
-  max-width: 400px;
+.card {
+    background: var(--card-bg);
+    width: 380px;
+    padding: 30px;
+    border-radius: var(--border-radius);
 }
 
-.amount {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 10px;
+h1 {
+    text-align: center;
+    color: var(--text-dark);
 }
 
-.terms button {
-  margin: 5px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 30px;
 }
 
-.terms .active {
-  background: #e53935;
-  color: white;
+.section {
+    margin-bottom: 25px;
 }
 
-.apply-btn {
-  display: block;
-  text-align: center;
-  background: #e53935;
-  color: white;
-  padding: 14px;
-  border-radius: 10px;
-  text-decoration: none;
-  margin-top: 20px;
+.term-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
+.term-buttons button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+}
+
+.term-buttons .active {
+    background: var(--primary-red);
+    color: #fff;
+}
+
+.summary {
+    background: var(--light-bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-red);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}

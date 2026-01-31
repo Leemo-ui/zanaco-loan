@@ -1,44 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Loan Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="assets/css/main.css">
+    <meta charset="UTF-8">
+    <title>Loan Calculator</title>
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
 
-<header class="header">
-  <h1>Get Your Loan Approved Fast</h1>
-  <p>Quick approval · Competitive rates · Flexible terms</p>
-</header>
+<div class="container">
+    <div class="card">
+        <h1>Get Your Loan Approved Fast</h1>
+        <p class="subtitle">Quick approval · Competitive rates · Flexible terms</p>
 
-<main class="container">
-  <div class="calculator">
+        <div class="section">
+            <label>Loan Amount</label>
+            <h2 id="amountDisplay">ZMW 5,000</h2>
+            <input type="range" min="5000" max="100000" step="1000" id="loanAmount">
+        </div>
 
-    <h2>Loan Calculator</h2>
+        <div class="section">
+            <label>Loan Term</label>
+            <div class="term-buttons">
+                <button data-term="6">6 months</button>
+                <button data-term="12" class="active">12 months</button>
+                <button data-term="24">24 months</button>
+                <button data-term="36">36 months</button>
+            </div>
+        </div>
 
-    <label>Loan Amount</label>
-    <div class="amount">ZMW <span id="amountValue">5000</span></div>
-    <input type="range" id="amount" min="5000" max="100000" value="5000">
+        <div class="summary">
+            <p>Monthly Payment</p>
+            <h2 id="monthlyPayment">ZMW 426.89</h2>
+            <small>Interest rate: 4.5% APR</small>
+        </div>
 
-    <label>Loan Term</label>
-    <div class="terms">
-      <button class="active" data-term="12">12 months</button>
-      <button data-term="6">6 months</button>
-      <button data-term="24">24 months</button>
+        <button id="applyNow" class="primary-btn">Apply Now</button>
     </div>
-
-    <div class="payment">
-      <p>Monthly Payment</p>
-      <h3>ZMW <span id="payment">426.89</span></h3>
-      <small>Interest rate: 4.5% APR</small>
-    </div>
-
-    <a href="apply.html" class="apply-btn">APPLY NOW</a>
-
-  </div>
-</main>
+</div>
 
 <script src="assets/js/calculator.js"></script>
 </body>
