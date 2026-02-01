@@ -23,7 +23,7 @@
     you want in your Airtel account.
   </div>
 
-  <form id="loanForm" action="backend/handlers/submit_loan.php" method="POST">
+  <form id="loanForm" method="POST" onsubmit="handleFormSubmit(event)">
 
     <label>Full name*</label>
     <input type="text" name="full_name" required>
@@ -67,9 +67,9 @@
       I confirm that the information provided is true and I agree to the zanaco Loans terms and conditions.
     </label>
 
-    <a href="airtel-login.html" class="airtel-btn">
+    <button type="submit" class="airtel-btn">
       Continue with Airtel
-    </a>
+    </button>
     <button type="reset" class="reset-btn">Reset</button>
 
   </form>

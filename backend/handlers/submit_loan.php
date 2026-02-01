@@ -48,76 +48,87 @@ function sendConfirmationEmail($toEmail, $fullName, $loanAmount, $repaymentMonth
 
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    die("Invalid request");
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid request method']);
+    exit;
 }
 
-// 1. Collect & sanitize input
-$full_name = trim($_POST["full_name"]);
-$phone = trim($_POST["phone"]);
-$email = trim($_POST["email"] ?? "");
-$national_id = trim($_POST["national_id"]);
+try {
+    // 1. Collect & sanitize input
+    $full_name = trim($_POST["full_name"] ?? '');
+    $phone = trim($_POST["phone"] ?? '');
+    $email = trim($_POST["email"] ?? '');
+    $national_id = trim($_POST["national_id"] ?? '');
 
-$dob_year  = $_POST["dob_year"];
-$dob_month = $_POST["dob_month"];
-$dob_day   = $_POST["dob_day"];
+    $dob_year  = $_POST["dob_year"] ?? '';
+    $dob_month = $_POST["dob_month"] ?? '';
+    $dob_day   = $_POST["dob_day"] ?? '';
 
-$employment_status = $_POST["employment_status"];
+    $employment_status = $_POST["employment_status"] ?? '';
 
-// Convert "ZMW 30000" → 30000
-$loan_amount = preg_replace("/[^0-9.]/", "", $_POST["loan_amount"]);
+    // Convert "ZMW 30000" → 30000
+    $loan_amount = preg_replace("/[^0-9.]/", "", $_POST["loan_amount"] ?? "0");
 
-// Convert "6 months" → 6
-$repayment_months = (int) filter_var($_POST["repayment"], FILTER_SANITIZE_NUMBER_INT);
+    // Convert "6 months" → 6
+    $repayment_months = (int) filter_var($_POST["repayment"] ?? "0", FILTER_SANITIZE_NUMBER_INT);
 
-// Build date
-$date_of_birth = "$dob_year-$dob_month-$dob_day";
+    // Build date
+    $date_of_birth = "$dob_year-$dob_month-$dob_day";
 
-// 2. Insert into database
-$sql = "
-    INSERT INTO loan_applications
-    (full_name, phone, email, national_id, date_of_birth,
-     employment_status, loan_amount, repayment_months)
-    VALUES
-    (:full_name, :phone, :email, :national_id, :date_of_birth,
-     :employment_status, :loan_amount, :repayment_months)
-";
+    // Validate required fields
+    if (!$full_name || !$phone || !$national_id || !$date_of_birth || !$employment_status || !$loan_amount) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Missing required fields']);
+        exit;
+    }
 
-$stmt = $conn->prepare($sql);
+    // 2. Insert into database
+    $sql = "
+        INSERT INTO loan_applications
+        (full_name, phone, email, national_id, date_of_birth,
+         employment_status, loan_amount, repayment_months)
+        VALUES
+        (:full_name, :phone, :email, :national_id, :date_of_birth,
+         :employment_status, :loan_amount, :repayment_months)
+    ";
 
-$stmt->execute([
+    $stmt = $pdo->prepare($sql);
 
-    ":full_name" => $full_name,
-    ":phone" => $phone,
-    ":email" => $email,
-    ":national_id" => $national_id,
-    ":date_of_birth" => $date_of_birth,
-    ":employment_status" => $employment_status,
-    ":loan_amount" => $loan_amount,
-    ":repayment_months" => $repayment_months
-]);
+    $result = $stmt->execute([
+        ":full_name" => $full_name,
+        ":phone" => $phone,
+        ":email" => $email,
+        ":national_id" => $national_id,
+        ":date_of_birth" => $date_of_birth,
+        ":employment_status" => $employment_status,
+        ":loan_amount" => $loan_amount,
+        ":repayment_months" => $repayment_months
+    ]);
 
-// Send confirmation email after database insert succeeds
-if (!empty($email)) {
-    sendConfirmationEmail(
-        $email,
-        $full_name,
-        $loan_amount,
-        $repayment_months
-    );
+    if ($result) {
+        // Send confirmation email after database insert succeeds
+        if (!empty($email)) {
+            sendConfirmationEmail(
+                $email,
+                $full_name,
+                $loan_amount,
+                $repayment_months
+            );
+        }
+
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'message' => 'Application submitted successfully'
+        ]);
+    } else {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to insert data']);
+    }
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
 }
-
-// 3. Success response
-echo "
-<h2>Application Submitted Successfully</h2>
-<p>
-Thank you, <strong>$full_name</strong>.<br><br>
-Your loan application has been received and is currently under review.
-";
-
-if (!empty($email)) {
-    echo "<br>A confirmation email has been sent to <strong>$email</strong>.";
-}
-
-echo "</p>";
 
 
