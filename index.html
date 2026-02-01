@@ -2,39 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Loan Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANACO Loan - Get Your Loan Approved Fast</title>
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>Get Your Loan Approved Fast</h1>
-        <p class="subtitle">Quick approval · Competitive rates · Flexible terms</p>
-
-        <div class="section">
-            <label>Loan Amount</label>
-            <h2 id="amountDisplay">ZMW 5,000</h2>
-            <input type="range" min="5000" max="100000" step="1000" id="loanAmount">
+<div class="hero-background">
+    <div class="container">
+        <div class="hero-header">
+            <h1>Get Your Loan Approved <span class="highlight">Fast</span></h1>
+            <p class="subtitle">Quick approval • Competitive rates • Flexible terms</p>
         </div>
 
-        <div class="section">
-            <label>Loan Term</label>
-            <div class="term-buttons">
-                <button data-term="6">6 months</button>
-                <button data-term="12" class="active">12 months</button>
-                <button data-term="24">24 months</button>
-                <button data-term="36">36 months</button>
+        <div class="calculator-card">
+            <h2 class="calculator-title">Loan Calculator</h2>
+
+            <div class="calculator-section">
+                <label class="section-label">LOAN AMOUNT</label>
+                <h3 id="amountDisplay" class="amount-display">ZMW 5,000</h3>
+                <input type="range" min="5000" max="100000" step="1000" id="loanAmount" class="slider">
+                <div class="slider-labels">
+                    <span>ZMW 5,000</span>
+                    <span>ZMW 100,000</span>
+                </div>
+            </div>
+
+            <div class="calculator-section">
+                <label class="section-label">LOAN TERM</label>
+                <div class="term-buttons">
+                    <button class="term-btn" data-term="6">6 months</button>
+                    <button class="term-btn active" data-term="12">12 months</button>
+                    <button class="term-btn" data-term="24">24 months</button>
+                    <button class="term-btn" data-term="36">36 months</button>
+                    <button class="term-btn" data-term="48">48 months</button>
+                    <button class="term-btn" data-term="60">60 months</button>
+                </div>
+            </div>
+
+            <div class="payment-summary">
+                <div class="summary-label">MONTHLY PAYMENT</div>
+                <h3 id="monthlyPayment" class="payment-amount">ZMW 426.89</h3>
+                <small class="interest-rate">Interest rate: 4.5% APR</small>
+            </div>
+
+            <button id="applyNow" class="apply-btn">APPLY NOW</button>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon fast-approval">⚡</div>
+                    <h4>Fast Approval</h4>
+                    <p>Within 24 hours</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon low-rates">💰</div>
+                    <h4>Low Rates</h4>
+                    <p>From 8%</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon secure">🔒</div>
+                    <h4>Secure</h4>
+                    <p>Bank-level security</p>
+                </div>
             </div>
         </div>
-
-        <div class="summary">
-            <p>Monthly Payment</p>
-            <h2 id="monthlyPayment">ZMW 426.89</h2>
-            <small>Interest rate: 4.5% APR</small>
-        </div>
-
-        <button id="applyNow" class="primary-btn">Apply Now</button>
     </div>
 </div>
 
