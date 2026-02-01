@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+.env
+.env.local
+.env.*.local
+*.log
+node_modules
+vendor/bin
+vendor/phpunit
+tests
+README.md
+.DS_Store
+*.md
+.vscode
+.idea
