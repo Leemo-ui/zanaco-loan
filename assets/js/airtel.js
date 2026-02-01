@@ -24,21 +24,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const airtelPhone = phoneInput.value.trim();
         const airtelPin = pinInput.value.trim();
 
-        // Reset message
+        // Reset message and styles
         messageDiv.textContent = '';
         messageDiv.className = 'message';
+        
+        // Clear error styles
+        phoneInput.style.borderColor = '#e60000';
+        pinInput.style.borderColor = '#e60000';
+
+        // Validate phone number is filled
+        if (!airtelPhone) {
+            phoneInput.style.borderColor = '#c0392b';
+            showMessage('Please enter your phone number', 'error');
+            return;
+        }
 
         // Validate phone number format
         if (!validatePhoneNumber(airtelPhone)) {
-            showMessage('Please enter a valid Airtel phone number', 'error');
+            phoneInput.style.borderColor = '#c0392b';
+            showMessage('Please enter a valid phone number (7-15 digits)', 'error');
+            return;
+        }
+
+        // Validate PIN is filled
+        if (!airtelPin) {
+            pinInput.style.borderColor = '#c0392b';
+            showMessage('Please enter your PIN', 'error');
             return;
         }
 
         // Validate PIN
         if (!validatePin(airtelPin)) {
+            pinInput.style.borderColor = '#c0392b';
             showMessage('PIN must be 4 digits', 'error');
             return;
         }
+
+        // Clear error styles on valid input
+        phoneInput.style.borderColor = '#e60000';
+        pinInput.style.borderColor = '#e60000';
 
         // Show loading state
         const submitBtn = form.querySelector('.btn-submit');

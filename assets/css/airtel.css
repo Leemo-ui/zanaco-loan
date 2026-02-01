@@ -52,6 +52,12 @@ body {
     border: 2px solid #e60000;
     border-radius: 10px;
     text-align: center;
+    transition: border-color 0.2s;
+}
+
+.phone-input:focus {
+    outline: none;
+    border-color: #c0392b;
 }
 
 .phone-input:read-only {
@@ -79,6 +85,12 @@ body {
     border: 2px solid #e60000;
     letter-spacing: 8px;
     font-weight: bold;
+    transition: border-color 0.2s;
+}
+
+.pin-input:focus {
+    outline: none;
+    border-color: #c0392b;
 }
 
 .pin-input::placeholder {
@@ -157,8 +169,12 @@ body {
 }
 
 .btn-back:hover {
-    border-color: #e60000;
-    color: #e60000;
+    border-color: #1e3a8a;
+    color: #1e3a8a;
+}
+
+.btn-submit.login-btn:hover {
+    background: #1e3a8a;
 }
 
 .btn-submit.login-btn {

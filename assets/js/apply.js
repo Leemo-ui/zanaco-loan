@@ -1,7 +1,44 @@
 // Form validation & submit logic
 
+function validateForm() {
+    const form = document.getElementById("loanForm");
+    const inputs = form.querySelectorAll("input[required], select[required]");
+    const checkbox = form.querySelector('input[type="checkbox"]');
+    
+    let isValid = true;
+    
+    // Check all required fields
+    for (let input of inputs) {
+        if (!input.value || input.value.trim() === "") {
+            input.style.borderColor = "#e53935";
+            isValid = false;
+        } else {
+            input.style.borderColor = "#ccc";
+        }
+    }
+    
+    // Check checkbox
+    if (checkbox && !checkbox.checked) {
+        checkbox.parentElement.style.color = "#e53935";
+        isValid = false;
+    } else if (checkbox) {
+        checkbox.parentElement.style.color = "#333";
+    }
+    
+    if (!isValid) {
+        alert("Please fill in all required fields and agree to the terms and conditions.");
+    }
+    
+    return isValid;
+}
+
 function handleFormSubmit(event) {
     event.preventDefault();
+    
+    // Validate form first
+    if (!validateForm()) {
+        return;
+    }
 
     const form = document.getElementById("loanForm");
     const formData = new FormData(form);
@@ -38,6 +75,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("loanForm");
     if (form) {
         form.addEventListener("submit", handleFormSubmit);
+        
+        // Add real-time validation
+        const inputs = form.querySelectorAll("input[required], select[required]");
+        inputs.forEach(input => {
+            input.addEventListener("change", function() {
+                if (this.value && this.value.trim() !== "") {
+                    this.style.borderColor = "#ccc";
+                }
+            });
+        });
     }
 });
 

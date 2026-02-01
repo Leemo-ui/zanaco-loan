@@ -285,8 +285,8 @@ body {
 }
 
 .nav-btn:hover:not(:disabled) {
-    border-color: #e74c3c;
-    color: #e74c3c;
+    border-color: #1e3a8a;
+    color: #1e3a8a;
 }
 
 .nav-btn.nav-next {
@@ -296,8 +296,8 @@ body {
 }
 
 .nav-btn.nav-next:hover {
-    background: #c0392b;
-    border-color: #c0392b;
+    background: #1e3a8a;
+    border-color: #1e3a8a;
 }
 
 .nav-btn:disabled,

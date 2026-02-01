@@ -107,8 +107,8 @@ input, select {
 }
 
 .btn-back:hover {
-  border-color: #e53935;
-  color: #e53935;
+  border-color: #1e3a8a;
+  color: #1e3a8a;
 }
 
 .btn-next {
@@ -125,5 +125,10 @@ input, select {
 }
 
 .btn-next:hover {
-  background: #c62828;
+  background: #1e3a8a;
+}
+
+.btn-next:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
