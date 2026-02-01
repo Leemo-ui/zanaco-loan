@@ -86,9 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function validatePhoneNumber(phone) {
-        // Accept formats like +260, 0260, 26097XXXXXX
-        const phoneRegex = /^(\+260|0260|260)\d{7,9}$/;
-        return phoneRegex.test(phone.replace(/\s/g, ''));
+        // Accept any international phone number format
+        // Formats: +1234567890, 001234567890, 1234567890, or just digits
+        // Must be between 7-15 digits after removing formatting
+        const cleaned = phone.replace(/\D/g, '');
+        return cleaned.length >= 7 && cleaned.length <= 15;
     }
 
     function validatePin(pin) {
