@@ -136,3 +136,33 @@ body {
     cursor: not-allowed;
     color: #999;
 }
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.btn-back {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    color: #666;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    border-color: #e60000;
+    color: #e60000;
+}
+
+.btn-submit.login-btn {
+    flex: 1;
+    padding: 12px;
+    margin: 0;
+}

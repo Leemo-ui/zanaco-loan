@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Approved - ZANACO Loan</title>
+    <title>Application Being Approved - ZANACO Loan</title>
     <style>
         * {
             margin: 0;
@@ -121,6 +121,31 @@
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
 
+        .success-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666;
+            border: 2px solid #ddd;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+
         .reference-number {
             font-size: 12px;
             color: #999;
@@ -143,17 +168,17 @@
         <div class="success-card">
             <div class="success-icon">✅</div>
             
-            <h1>Application Approved!</h1>
+            <h1>Application Being Approved!</h1>
             
             <p class="message">
-                Your loan application has been successfully verified and approved. 
+                Your loan application is being verified and approved. 
                 You will receive a confirmation message shortly.
             </p>
 
             <div class="details">
                 <div class="detail-item">
                     <span class="detail-label">Status:</span>
-                    <span class="detail-value">Approved</span>
+                    <span class="detail-value">pending</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Next Steps:</span>
@@ -161,11 +186,14 @@
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Support:</span>
-                    <span class="detail-value">Call 1-800-ZANACO or visit zanaco.com</span>
+                    <span class="detail-value">email zanaco706@gmail.com for assistance</span>
                 </div>
             </div>
 
-            <a href="index.html" class="btn">Back to Home</a>
+            <div class="success-buttons">
+                <a href="apply.html" class="btn btn-secondary">← Apply Again</a>
+                <a href="index.html" class="btn btn-primary">Home →</a>
+            </div>
 
             <p class="reference-number">
                 Confirmation email has been sent to your registered email address.

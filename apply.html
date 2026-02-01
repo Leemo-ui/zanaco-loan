@@ -72,6 +72,11 @@
     </button>
     <button type="reset" class="reset-btn">Reset</button>
 
+    <div class="form-buttons">
+      <button type="button" class="btn-back" onclick="window.location.href='index.html'">← Back</button>
+      <button type="submit" class="btn-next" onclick="document.querySelector('form').dispatchEvent(new Event('submit'))">Next →</button>
+    </div>
+
   </form>
 
 </div>

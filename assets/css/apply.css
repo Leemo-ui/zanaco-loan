@@ -86,3 +86,44 @@ input, select {
   margin-top: 10px;
   padding: 12px;
 }
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-back {
+  flex: 1;
+  padding: 12px;
+  background: white;
+  color: #666;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  border-color: #e53935;
+  color: #e53935;
+}
+
+.btn-next {
+  flex: 1;
+  padding: 12px;
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-next:hover {
+  background: #c62828;
+}
