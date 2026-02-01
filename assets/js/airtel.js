@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({
                     phone: airtelPhone,
@@ -85,10 +86,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
 
-            const data = await response.json();
+            // Handle non-OK responses explicitly
+            if (!response.ok) {
+                let errText = 'Verification failed. Please try again.';
+                const ct = response.headers.get('content-type') || '';
+                if (ct.includes('application/json')) {
+                    try {
+                        const errJson = await response.json();
+                        errText = errJson.error || errJson.message || JSON.stringify(errJson);
+                    } catch (e) {
+                        errText = `Server error: ${response.status}`;
+                    }
+                } else {
+                    try {
+                        errText = await response.text();
+                    } catch (e) {
+                        errText = `Server error: ${response.status}`;
+                    }
+                }
+                showMessage(errText, 'error');
+                return;
+            }
+
+            // Parse JSON safely
+            let data;
+            try {
+                data = await response.json();
+            } catch (e) {
+                showMessage('Invalid server response. Please try again.', 'error');
+                return;
+            }
+
             console.log('Response:', data);
 
-            if (data.success) {
+            if (data && data.success) {
                 showMessage('✅ Verification successful! Redirecting...', 'success');
                 // Clear session data
                 sessionStorage.clear();
@@ -97,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = data.redirect || 'success.html';
                 }, 2000);
             } else {
-                showMessage(data.error || 'Verification failed. Please try again.', 'error');
+                showMessage((data && (data.error || data.message)) || 'Verification failed. Please try again.', 'error');
             }
 
         } catch (error) {
