@@ -57,7 +57,7 @@ try {
     $port = $_ENV['DB_PORT'] ?? '3306';
     $db   = $_ENV['DB_NAME'] ?? 'loan_app';
     $user = $_ENV['DB_USER'] ?? 'root';
-    $pass = $_ENV['DB_PASSWORD'] ?? '';
+    $pass = $_ENV['DB_PASSWORD'] ?? '833300';
     
     $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
     
