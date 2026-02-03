@@ -1,9 +1,9 @@
 <?php
-header("Content-Type: application/json");
-
-require_once __DIR__ . '/../config/db.php';
+header("Content-Type: application/json; charset=utf-8");
 
 try {
+    require_once __DIR__ . '/../config/db.php';
+
     // sanity query
     $stmt = $pdo->query("SELECT 1");
     $result = $stmt->fetchColumn();
@@ -15,6 +15,7 @@ try {
             "ping" => (int) $result
         ]
     ]);
+
 } catch (Throwable $e) {
     http_response_code(500);
     error_log('[health.php] DB check failed: ' . $e->getMessage());
@@ -24,4 +25,5 @@ try {
         "message" => "Database connection failed"
     ]);
 }
+
 exit;
